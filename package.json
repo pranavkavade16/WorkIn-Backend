@@ -1,5 +1,5 @@
 {
-  "name": "workin(backend)",
+  "name": "workin-backend",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -16,5 +16,9 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.2.1",
     "nodemon": "^3.1.14"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.3",
+    "eslint-plugin-react-hooks": "^7.0.1"
   }
 }
