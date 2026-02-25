@@ -2,7 +2,6 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const {initializeDatabase} = require("./db/db.connect")
 
 const teamRoutes = require('./routes/teamRoutes');
 const taskRoutes = require('./routes/taskRoutes');
@@ -23,8 +22,6 @@ app.use(cors(corsOptions));
 
 // Body parser (only once)
 app.use(express.json());
-
-initializeDatabase()
 
 // Routes
 app.use('/', adminRoutes);
