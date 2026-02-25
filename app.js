@@ -13,7 +13,7 @@ const verifyJWT = require('./middleware/auth.middleware');
 
 const app = express();
 
-// CORS config (pick one place to call it)
+
 const corsOptions = {
   origin: '*',
   credentials: true,
@@ -21,10 +21,22 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Body parser (only once)
 app.use(express.json());
 
-initializeDatabase()
+(async () => {
+  try {
+    await initializeDatabase(); // ✅ wait for DB connection
+
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}.`);
+    });
+  } catch (err) {
+    console.error('Failed to start server:', err);
+    process.exit(1);
+  }
+})();
+
 
 // Routes
 app.use('/', adminRoutes);
