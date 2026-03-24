@@ -1,21 +1,20 @@
 // app.js
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const {initializeDatabase} = require("./db/db.connect")
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const { initializeDatabase } = require("./db/db.connect");
 
-const teamRoutes = require('./routes/teamRoutes');
-const taskRoutes = require('./routes/taskRoutes');
-const projectRoutes = require('./routes/projectRoutes');
-const userRoutes = require('./routes/userRoutes');
-const adminRoutes = require('./routes/adminRoutes');
-const verifyJWT = require('./middleware/auth.middleware');
+const teamRoutes = require("./routes/teamRoutes");
+const taskRoutes = require("./routes/taskRoutes");
+const projectRoutes = require("./routes/projectRoutes");
+const userRoutes = require("./routes/userRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+const verifyJWT = require("./middleware/auth.middleware");
 
 const app = express();
 
-
 const corsOptions = {
-  origin: '*',
+  origin: "*",
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -32,21 +31,20 @@ app.use(express.json());
       console.log(`Server is running on port ${PORT}.`);
     });
   } catch (err) {
-    console.error('Failed to start server:', err);
+    console.error("Failed to start server:", err);
     process.exit(1);
   }
 })();
 
-
 // Routes
-app.use('/', adminRoutes);
+app.use("/", adminRoutes);
 
-app.use('/team', teamRoutes);
+app.use("/team", verifyJWT, teamRoutes);
 
-app.use('/task', taskRoutes);
+app.use("/task", verifyJWT, taskRoutes);
 
-app.use('/project', projectRoutes);
+app.use("/project", verifyJWT, projectRoutes);
 
-app.use('/user', userRoutes);
+app.use("/user", verifyJWT, userRoutes);
 
 module.exports = app;
