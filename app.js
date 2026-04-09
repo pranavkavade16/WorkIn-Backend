@@ -1,4 +1,3 @@
-// app.js
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
@@ -16,15 +15,20 @@ const app = express();
 const corsOptions = {
   origin: "*",
   credentials: true,
-  optionSuccessStatus: 200,
+  optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
-
 app.use(express.json());
+
+app.use("/", adminRoutes);
+app.use("/team", verifyJWT, teamRoutes);
+app.use("/task", verifyJWT, taskRoutes);
+app.use("/project", verifyJWT, projectRoutes);
+app.use("/user", verifyJWT, userRoutes);
 
 (async () => {
   try {
-    await initializeDatabase(); // ✅ wait for DB connection
+    await initializeDatabase();
 
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
@@ -35,16 +39,5 @@ app.use(express.json());
     process.exit(1);
   }
 })();
-
-// Routes
-app.use("/", adminRoutes);
-
-app.use("/team", verifyJWT, teamRoutes);
-
-app.use("/task", verifyJWT, taskRoutes);
-
-app.use("/project", verifyJWT, projectRoutes);
-
-app.use("/user", verifyJWT, userRoutes);
 
 module.exports = app;
