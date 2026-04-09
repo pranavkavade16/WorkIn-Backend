@@ -9,15 +9,18 @@ const verifyJWT = (req, res, next) => {
 
   const token = authHeader.split(" ")[1];
 
+  if (!token) {
+    return res.status(401).json({ message: "Malformed token." });
+  }
+
   try {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decodedToken;
-
     next();
   } catch (error) {
     return res
-      .status(402)
-      .json({ message: "Invalid token", error: error.message });
+      .status(403)
+      .json({ message: "Invalid token", error: error.message }); // ✅ 403, not 402
   }
 };
 
