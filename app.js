@@ -9,6 +9,7 @@ const projectRoutes = require("./routes/projectRoutes");
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const verifyJWT = require("./middleware/auth.middleware");
+const authRoutes = require("./routes/signupRoutes");
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/", adminRoutes);
+app.use("/auth", authRoutes);
 app.use("/team", verifyJWT, teamRoutes);
 app.use("/task", verifyJWT, taskRoutes);
 app.use("/project", verifyJWT, projectRoutes);
